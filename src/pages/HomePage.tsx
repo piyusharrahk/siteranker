@@ -1,7 +1,7 @@
 // src/pages/HomePage.tsx
 import { useEffect, useState } from "react";
-import { cmsService } from "@/lib/cms";
-import { brands as staticBrands } from "@/data/brandData";
+import { cmsService } from "../lib/cms";
+import { brands as staticBrands } from "../data/brandData";
 
 type Brand = {
   id?: string;

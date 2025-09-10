@@ -1,14 +1,16 @@
 // src/pages/BrandPage.tsx
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { cmsService } from "@/lib/cms";
-import { brands as staticBrands } from "@/data/brandData";
+import { cmsService } from "../lib/cms";
+import { brands as staticBrands } from "../data/brandData";
 
 export default function BrandPage() {
-  const { slug } = useParams<{ slug: string }>();
+  const params = useParams();
+  const slug = params.slug as string | undefined;
   const [brand, setBrand] = useState<any>(null);
 
   useEffect(() => {
+    if (!slug) return;
     (async () => {
       try {
         const list = await cmsService.getBrands();
@@ -19,6 +21,7 @@ export default function BrandPage() {
     })();
   }, [slug]);
 
+  if (!slug) return <div className="p-6">No brand specified.</div>;
   if (!brand) return <div className="p-6">Loading…</div>;
 
   return (
