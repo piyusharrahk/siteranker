@@ -1,7 +1,7 @@
 // src/pages/HomePage.tsx
 import { useEffect, useState } from "react";
 import { cmsService } from "../lib/cms";
-import { brands as staticBrands } from "../data/brandData";
+import staticBrands from "../data/brandData"; // <-- default import
 
 type Brand = {
   id?: string;
@@ -15,14 +15,14 @@ type Brand = {
 };
 
 export default function HomePage() {
-  const [brands, setBrands] = useState<Brand[]>(staticBrands);
+  const [brands, setBrands] = useState<Brand[]>(staticBrands as Brand[]);
 
   useEffect(() => {
     (async () => {
       try {
         const dbBrands: Brand[] = await cmsService.getBrands();
         const bySlug = new Map<string, Brand>();
-        for (const b of staticBrands) bySlug.set(b.slug, b);
+        for (const b of (staticBrands as Brand[])) bySlug.set(b.slug, b);
         for (const b of (dbBrands || [])) if (!bySlug.has(b.slug)) bySlug.set(b.slug, b);
         setBrands(Array.from(bySlug.values()));
       } catch {

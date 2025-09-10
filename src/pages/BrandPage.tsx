@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { cmsService } from "../lib/cms";
-import { brands as staticBrands } from "../data/brandData";
+import staticBrands from "../data/brandData"; // <-- default import
 
 export default function BrandPage() {
   const params = useParams();
@@ -17,7 +17,8 @@ export default function BrandPage() {
         const hit = (list || []).find((b: any) => b.slug === slug);
         if (hit) { setBrand(hit); return; }
       } catch {}
-      setBrand(staticBrands.find(b => b.slug === slug));
+      const listStatic = staticBrands as any[];
+      setBrand(listStatic.find(b => b.slug === slug));
     })();
   }, [slug]);
 
